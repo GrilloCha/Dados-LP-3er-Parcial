@@ -7,6 +7,7 @@
 
 // Variables globales
 int i,j, rango, apuesta;
+int prueba;
 int dado1, dado2;
 int cero;
 int suma;
@@ -79,28 +80,41 @@ void menu(){
 void adivinanza(){
 	system("cls");
 	int apuesta = 0;
+	aciertos = 0;
+	fallos = 0;
 	centrar("ADIVINANZA\n\n", 1);
-	printf("Numero de apuestas: ", 4); scanf("%d", &rango);
-	printf("\n");	
+	centrar1("(cero para terminar)", 6);
+	centrar1("Su apuesta: ", 5);
+	centrar1("Respuesta", 8); centrar("Acierta/Falla", 8);
+	printf("\n\nAciertos:                 Fallas: ");
+	centrar1("Numero de apuestas: ", 3); scanf("%d", &rango);	
 	for(i = 1 ; i < rango + 1; i++){
 		system("cls\n");
 		centrar("ADIVINANZA\n\n", 1);
-		printf("Numero de apuestas: ", 4); printf("%d", rango);
+		centrar1("Numero de apuestas: ", 3); printf("%d", rango);
+		centrar1("(cero para terminar)", 6);
+		centrar1("Su apuesta", 5); printf(" %d: ", i); scanf("%d", &apuesta);
+		if(apuesta == 0){printf("\n\n"); return 0;}
+		prueba = generador();
 		printf("\n");
-		printf("\nSu apuesta (cero para terminar) %d: ",i); scanf("%d", &apuesta);
-		if(apuesta == 0) return 0;
-		printf("\n");
-		generador();
-		printf("\n");
-		verificarapuesta(apuesta, suma);
-		printf("\n");
-		system("Pause\n");
+		centrar1("Respuesta:", 9); printf(" %3d", prueba);
+		if(prueba == apuesta){
+			centrar("---- Acierta ----", 9);
+			aciertos = aciertos + 1;
+		}else
+		{
+			centrar("---- Falla ----", 9);
+			fallos = fallos + 1;
+		}
+		printf("\n\nAciertos: %4d          Fallas: %4d\n\n", aciertos, fallos);
+		system("Pause");
 		system("cls");		
 	}
 }
 
 void combinaciones(){
-	int ganados=0, perdidos=0, apuestas, i, prueba;
+	aciertos = 0;
+	fallos = 0;
 	system("cls");
 	centrar("COMBINACIONES\n\n", 1);
 	printf("Numero de apuestas: ", 4); scanf("%d", &rango);
@@ -112,12 +126,12 @@ void combinaciones(){
 		printf("\nResultado %d: %d", i + 1, prueba);
 		if(prueba == 2 || prueba == 3 || prueba == 7 || prueba == 11 || prueba == 12){
 			printf("\nCombinación ganadora <3");
-			ganados = ganados + 1;
+			aciertos = aciertos + 1;
 		}else{
 			printf("\nNo le atinaste >=(");
-			perdidos = perdidos + 1;
+			fallos = fallos + 1;
 		}
-		printf("\nGanados: %3d Perdidos: %3d \n\n", ganados, perdidos); 
+		printf("\nGanados: %3d Perdidos: %3d \n\n", aciertos, fallos); 
 		printf("\n\n\n");
 		centrar1("0: Regresar, 1: Continuar\n",9);
 		scanf("%d", &cero);
@@ -135,8 +149,6 @@ int generador(){
 	dado2 = rand() % 6 + 1;
 	
 	suma = dado1 + dado2;
-	
-	printf("Respuesta: %d\n", suma);
 	
 	return suma;
 }
@@ -174,7 +186,7 @@ void centrar(const char *texto, int y){
 void centrar1(const char *texto, int y){
 	int size_texto;
 	size_texto = strlen(texto); 
-	gotoxy(30-(size_texto/2), y);  
+	gotoxy(10-(size_texto/2), y);  
 	printf("%s",texto); 
 }
 
