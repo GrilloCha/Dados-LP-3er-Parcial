@@ -13,34 +13,54 @@ int cero;
 int suma;
 int aciertos = 0;
 int fallos = 0;
+int v = 0;
+int vector[100];
+int mediana;
+int moda;
+int menor;
+int mayor;
+int diferencia;
+float varianza;
+float desviacion;
+float media;
 
-
-// Funciï¿½n
+// Funcion
+int generador();
+void estadistica();
+void burbuja();
 void portada();
 void menu();
 void adivinanza();
 void combinaciones();
-int generador();
 void gotoxy(int, int);
 void centrar(const char *texto, int y);
 void centrar1(const char *texto, int y);
+void alinear_d(const char *texto, int y);
 void verificarapuesta();
 void imprimirresultados();
+void me();
+void medin();
+void dif();
+void var();
+void de();
 
 int main(int argc, char *argv[]) {
 	char op;
 	portada(); // Modulo portada
 	do {
-		menu(); // Mï¿½dulo Menï¿½
+		menu(); // Modulo Menu
 		op = getche();
 		switch (op) { 
 			case '1':
-				adivinanza(); // Mï¿½dulo adivinanza
+				adivinanza(); // Modulo adivinanza
 			break;	
 			case '2':
-				combinaciones(); // Mï¿½dulo combinaciones
+				combinaciones(); // Modulo combinaciones
 			break;
 			case '3':
+				estadistica(); // Modulo estadistica
+			break;
+			case '4':
 				exit(-1); // Salida del programa
 			break;
 		default:
@@ -70,34 +90,35 @@ void menu(){
 	system("cls");
 	centrar("JUEGO DE DADOS", 1);
 	centrar("CAPTURA DE DATOS", 3);
-	centrar("1) Adivinanza", 6);
-	centrar("2) Combinaciones", 8);
-	centrar("3) Terminar", 10);
-	centrar("Elija su opcion: ", 12);
+	gotoxy(52,5);printf("1) Adivinanza");
+	gotoxy(52,7);printf("2) Combinaciones");
+	gotoxy(52,9);printf("3) Estadistica");
+	gotoxy(52,11);printf("4) Terminar");
+	centrar("Elija su opcion: ", 13);
 }
 
-
+//Modulo adivinanza
 void adivinanza(){
 	system("cls");
 	int apuesta = 0;
 	aciertos = 0;
 	fallos = 0;
 	centrar("ADIVINANZA\n\n", 1);
-	centrar1("(cero para terminar)", 6);
-	centrar1("Su apuesta: ", 5);
-	centrar1("Respuesta", 8); centrar("Acierta/Falla", 8);
-	printf("\n\nAciertos:                 Fallas: ");
-	centrar1("Numero de apuestas: ", 3); scanf("%d", &rango);	
+	alinear_d("(cero para terminar)", 6);
+	alinear_d("Su apuesta: ", 5);
+	alinear_d("Respuesta", 8); centrar("Acierta/Falla", 8);
+	printf("\n\n Aciertos:                 Fallas: ");
+	alinear_d("Numero de apuestas: ", 3); scanf("%d", &rango);	
 	for(i = 1 ; i < rango + 1; i++){
 		system("cls\n");
 		centrar("ADIVINANZA\n\n", 1);
-		centrar1("Numero de apuestas: ", 3); printf("%d", rango);
-		centrar1("(cero para terminar)", 6);
-		centrar1("Su apuesta", 5); printf(" %d: ", i); scanf("%d", &apuesta);
-		if(apuesta == 0){printf("\n\n"); return 0;}
+		alinear_d("Numero de apuestas: ", 3); printf("%d", rango);
+		alinear_d("(cero para terminar)", 6);
+		alinear_d("Su apuesta", 5); printf(" %d: ", i); scanf("%d", &apuesta);
+		if(apuesta == 0){printf("\n\n"); return;}
 		prueba = generador();
 		printf("\n");
-		centrar1("Respuesta:", 9); printf(" %3d", prueba);
+		alinear_d("Respuesta:", 9); printf(" %3d", prueba);
 		if(prueba == apuesta){
 			centrar("---- Acierta ----", 9);
 			aciertos = aciertos + 1;
@@ -106,7 +127,8 @@ void adivinanza(){
 			centrar("---- Falla ----", 9);
 			fallos = fallos + 1;
 		}
-		printf("\n\nAciertos: %4d          Fallas: %4d\n\n", aciertos, fallos);
+		alinear_d("", 10);
+		printf("Aciertos: %4d          Fallas: %4d\n\n", aciertos, fallos);
 		system("Pause");
 		system("cls");		
 	}
@@ -116,56 +138,133 @@ void combinaciones(){
 	aciertos = 0;
 	fallos = 0;
 	system("cls");
-	centrar("COMBINACIONES\n\n", 1);
-	printf("Numero de apuestas: ", 4); scanf("%d", &rango);
+	centrar("COMBINACIONES", 1);
+	alinear_d("", 3); printf("Numero de apuestas: "); scanf("%d", &rango);
 	for(i = 0; i < rango; i++){
 		system("cls");
 		centrar("COMBINACIONES\n\n", 1);
-		printf("Numero de apuestas: %d\n", rango);
+		alinear_d("", 3); printf("Numero de apuestas: %d\n", rango);
 		prueba = generador();
-		printf("\nResultado %d: %d", i + 1, prueba);
+		alinear_d("Resultado", 5); printf(" %d: %d", i + 1, prueba);
 		if(prueba == 2 || prueba == 3 || prueba == 7 || prueba == 11 || prueba == 12){
-			printf("\nCombinación ganadora <3");
+			centrar("Gana tiro", 5);
 			aciertos = aciertos + 1;
 		}else{
-			printf("\nNo le atinaste >=(");
+			centrar("Pierde tiro", 5);
 			fallos = fallos + 1;
 		}
-		printf("\nGanados: %3d Perdidos: %3d \n\n", aciertos, fallos); 
-		printf("\n\n\n");
-		centrar1("0: Regresar, 1: Continuar\n",9);
-		scanf("%d", &cero);
-		if(cero == 0) return 0;
+		alinear_d("", 7); printf("Ganados: %3d Perdidos: %3d", aciertos, fallos); 
+		alinear_d("Ingresa 0 para regresar al menu, cualquier otro numero para continuar: ", 9); scanf("%d", &cero);
+		if(cero == 0){ alinear_d("", 11); return;} ;
 	}
 }
 
+//Generador de dados
 int generador(){
 	int suma, dado1, dado2;
-	
 	srand(time(NULL));
-	
 	dado1 = rand() % 6 + 1;
-	
 	dado2 = rand() % 6 + 1;
-	
 	suma = dado1 + dado2;
-	
+	vector[v] = suma;
+	printf("%d", v);
+	printf("Vector: %d", vector[v]);
+	v = v + 1;
 	return suma;
 }
 
-void verificarapuesta(int apuesta, int suma){
-	if(apuesta == suma){
-		aciertos++;
-	} printf("Aciertos: %d\n",aciertos);
-	if(apuesta != suma){
-		fallos++;
-		printf("Fallos: %d",fallos);
+
+//Estadistica 
+void burbuja(){
+	int aux = 0;
+	int menor;
+	int mayor;
+	int cont1 = 0, cont2 = 0;
+		for(i = 0 ; i < rango ; i++){
+			for(j = 0 ; j < rango - 1 ; j++) {
+				if(vector[j] > vector[j+1]){
+			    		aux = vector[j+1];
+			    		vector[j+1] = vector[j];
+			    		vector [j] = aux; 
+					}
+			}
 	}
-	//printf("Aciertos: %d		Fallos: %d", aciertos, fallos);
+	menor = vector[1];
+	mayor = vector[v]; 
+	for(i = 0 ; i < v ; i++) {
+		if(i % 10 == 0 && i != 0) printf("\n");
+		printf("%4d ", vector[i]);	
+		me();
+		medin();
+		dif();
+	}
+	var();
+	de();
+	printf("\n");
+	}
+
+
+void estadistica(){	
+	system("cls\n");
+	burbuja();
+	centrar("PARAMETROS ESTADISTICOS", 13);
+	centrar("TABLA DE VALORES DE LA COLECCION", 14);
+	alinear_d("Medidas de Tendencia Central: ", 16);
+	alinear_d("Media =", 17); printf(" %.2f\n", media);
+	alinear_d("Mediana =", 18); printf(" %d\n", mediana);
+	alinear_d("Medidas de Dispersion: ", 20);
+	alinear_d("Rango = ", 21); printf( "%d", diferencia);
+	alinear_d("Varianza = ", 22); printf("%f", varianza);
+	alinear_d("Desviacion Estandar = ", 23); printf("%f", desviacion);
+	printf("\n\n");
+}
+
+//FUNCIONES PARA OPERACIONES
+void me(){
+		suma = suma + vector[i];	
+		media = suma / v;
+}
+
+void medin(){
+	int tamanioelemento = sizeof vector[i];
+	int longitud = rango;
+	int mitad = longitud / 2;
+	// Después vemos si la longitud es par
+	if (longitud % 2 == 0) {
+	    // Debemos promediar los valores del centro
+	    mediana = (vector[mitad - 1] + vector[mitad]) / 2;
+	} else {
+	    mediana = vector[mitad];
+	}
+}
+
+void dif(){
+    mayor = mayor < vector[i] ? vector[i] : mayor;
+    //menor = menor > vector[i] ? vector[i] : menor;
+	if (i == 0){
+		menor = vector[i];
+	} 
+	else{
+		if (vector[i] < menor) {
+			menor = vector[i];
+		}
+	}
+	diferencia = mayor - menor;
+}
+
+void var(){
+	for(i=0; i< v; i++){
+	varianza = varianza + pow(vector[i] - media, 2);
+	}	
+	varianza = varianza / rango;
+}
+
+void de(){
+	desviacion = sqrt(varianza);
 }
 
 // UTILERIA
-
+//Funciones para alinear el texto
 void gotoxy(int x,int y){ 
       HANDLE hcon; ; 
       hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
@@ -175,7 +274,6 @@ void gotoxy(int x,int y){
       SetConsoleCursorPosition(hcon,dwPos); ;
 }
 
-//Funcion para centrar el texto
 void centrar(const char *texto, int y){
 	int size_texto;
 	size_texto = strlen(texto); 
@@ -186,7 +284,13 @@ void centrar(const char *texto, int y){
 void centrar1(const char *texto, int y){
 	int size_texto;
 	size_texto = strlen(texto); 
-	gotoxy(10-(size_texto/2), y);  
+	gotoxy(60, y);  
+	printf("%s",texto); 
+}
+
+void alinear_d(const char *texto, int y){
+	int size_texto;
+	gotoxy(1, y);  
 	printf("%s",texto); 
 }
 
