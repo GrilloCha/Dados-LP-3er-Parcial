@@ -60,9 +60,6 @@ int main(int argc, char *argv[]) {
 			case '3':
 				estadistica(); // Modulo estadistica
 			break;
-			case '4':
-				exit(-1); // Salida del programa
-			break;
 		default:
 			centrar("Opcion no valida\n", 14);
 		}
@@ -75,7 +72,7 @@ int main(int argc, char *argv[]) {
 void portada(){
 	system("color F0");
 	centrar("INSTITUTO POLITECNICO NACIONAL\n", 0);
-	centrar("Unidad Profesional Interdisciplinaria de Ingenierias y Ciencias Sociales y Administrativas\n",2);
+	centrar("UPIICSA\n",2);
 	centrar("1CM12    Equipo: 2 \n",4);
 	centrar("LOGICA DE PROGRAMACION\n",6);
 	centrar("AUTORES:\n",8);
@@ -83,8 +80,9 @@ void portada(){
 	centrar("Leon Jardines Alexis\n\n",12);
 	centrar("Reyes Farias Pamela Denise\n",14);
 	centrar("Torres Tellez Carlos Arturo\n",16);
-	system("Pause");
+	gotoxy(43, 18);	system("Pause");
 }
+
 // Menu
 void menu(){
 	system("cls");
@@ -93,8 +91,7 @@ void menu(){
 	gotoxy(52,5);printf("1) Adivinanza");
 	gotoxy(52,7);printf("2) Combinaciones");
 	gotoxy(52,9);printf("3) Estadistica");
-	gotoxy(52,11);printf("4) Terminar");
-	centrar("Elija su opcion: ", 13);
+	centrar("Elija su opcion: ", 12);
 }
 
 //Modulo adivinanza
@@ -114,21 +111,20 @@ void adivinanza(){
 		centrar("ADIVINANZA\n\n", 1);
 		alinear_d("Numero de apuestas: ", 3); printf("%d", rango);
 		alinear_d("(cero para terminar)", 6);
-		alinear_d("Su apuesta", 5); printf(" %d: ", i); scanf("%d", &apuesta);
+		alinear_d("Su apuesta", 5); printf(" %d: ", i);
+		scanf("%d", &apuesta);
 		if(apuesta == 0){printf("\n\n"); return;}
 		prueba = generador();
 		printf("\n");
 		alinear_d("Respuesta:", 9); printf(" %3d", prueba);
 		if(prueba == apuesta){
-			centrar("---- Acierta ----", 9);
-			aciertos = aciertos + 1;
+			centrar("---- Acierta ----", 9); aciertos = aciertos + 1;
 		}else
 		{
-			centrar("---- Falla ----", 9);
-			fallos = fallos + 1;
+			centrar("---- Falla ----", 9); fallos = fallos + 1;
 		}
-		alinear_d("", 10);
-		printf("Aciertos: %4d          Fallas: %4d\n\n", aciertos, fallos);
+		alinear_d("", 10); 
+		printf("Aciertos: %4d Fallas: %4d\n\n", aciertos, fallos);
 		system("Pause");
 		system("cls");		
 	}
@@ -167,8 +163,6 @@ int generador(){
 	dado2 = rand() % 6 + 1;
 	suma = dado1 + dado2;
 	vector[v] = suma;
-	printf("%d", v);
-	printf("Vector: %d", vector[v]);
 	v = v + 1;
 	return suma;
 }
@@ -216,7 +210,8 @@ void estadistica(){
 	alinear_d("Rango = ", 21); printf( "%d", diferencia);
 	alinear_d("Varianza = ", 22); printf("%f", varianza);
 	alinear_d("Desviacion Estandar = ", 23); printf("%f", desviacion);
-	printf("\n\n");
+	alinear_d("", 25); system("Pause");
+	exit(-1);
 }
 
 //FUNCIONES PARA OPERACIONES
